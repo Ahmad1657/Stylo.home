@@ -1,0 +1,230 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.prenav {
+    position: relative;
+    width: 100%;
+    background-color: #e6007e;
+    color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 5px;
+}
+
+.orders {
+    width: 25%;
+    text-align: center;
+}
+
+.mov-bar {
+    width: 53%;
+    text-align: center;
+}
+
+.contact {
+    width: 22%;
+    text-align: center;
+}
+
+.prenav2 {
+    display: flex;
+    margin: 10px 0;
+}
+
+.empty {
+    width: 25%;
+}
+
+.logo {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+
+}
+
+.logo img {
+    width: 100px;
+    height: 55px;
+}
+
+.icons {
+    width: 23%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    font-size: 25px;
+    gap: 10px;
+}
+
+.line {
+    width: 100%;
+    color: black;
+    opacity: 0.1;
+    margin-top: 5px;
+}
+
+.navbar1 {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 50px;
+    margin: 20px 0;
+}
+.link{
+  text-decoration: none;
+   color: black;
+}
+
+.item {
+    margin-bottom: 40px;
+}
+.category{
+    font-size: 14px;
+}
+.description{
+    font-size: 16px;
+}
+.price{
+    font-size: 14px;
+}
+.itemtyp {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    list-style: none;
+    color: gray;
+    gap: 40px;
+    font-size: 20px;
+    color: gray;
+    margin: 30px 0;
+}
+
+.social a {
+    text-decoration: none;
+    color: black;
+    font-size: 18;
+}
+
+.list-bottom1 li a {
+    text-decoration: none;
+    color: #000;
+}
+
+.list-bottom1 li {
+    margin-bottom: 10px;
+}
+
+.mb_50 {
+    margin-bottom: 50px;
+}
+.clrbg{
+    background-color: black;
+}
+
+/* Website Responsiveness Code Starts */
+
+@media screen and (min-width:1024px) {
+    .payment_icons {
+        text-align: right;
+    }
+}
+
+@media screen and (max-width:992px) {
+    .navbar1 {
+        display: none;
+    }
+
+    .line {
+        display: none;
+    }
+
+    .prenav2 {
+        margin-bottom: 50px;
+    }
+
+    .chart{
+        margin-top: 10px !important;
+    }
+
+    .copyrights {
+        display: flex;
+        justify-content: center;
+    }
+
+    .payment_icons {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .orders {
+        width: 100%;
+        text-align: center;
+    }
+
+    .icon3 {
+        display: none;
+    }
+
+    .icon4 {
+        display: none;
+    }
+
+    .mov-bar {
+        width: 100%;
+        margin: 0 5%;
+    }
+
+    .contact {
+        display: none;
+    }
+
+    .discountchart img{
+        margin-bottom: 20px;
+    }
+
+    .bxe{
+        margin-bottom: 20px;
+    }
+
+    .copyrights {
+        display: flex;
+        justify-content: center;
+    }
+
+    .payment_icons {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width:480px) {
+    .copyrights {
+        display: flex;
+        justify-content: center;
+    }
+
+    .payment_icons {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width:300px) {
+    .copyrights {
+        display: flex;
+        justify-content: center;
+    }
+
+    .payment_icons {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+/* Website Responsiveness Code Ends */
