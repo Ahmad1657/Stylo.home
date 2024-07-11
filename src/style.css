@@ -228,3 +228,22 @@
 }
 
 /* Website Responsiveness Code Ends */
+
+.pro{
+    display: flex;
+    flex-wrap: wrap;
+   justify-content: space-around;
+    gap: 20px;   
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+    width: 50px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 8px solid lightpink;
+    border-right-color: #e6007e;
+    animation: l2 1s infinite linear;
+  }
+  @keyframes l2 {to{transform: rotate(1turn)}}
+

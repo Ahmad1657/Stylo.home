@@ -1,7 +1,7 @@
 import "./style.css"
 
-import './bootstrap-5.0.2-dist/css/bootstrap.min.css'
-import './bootstrap-5.0.2-dist/js/bootstrap.bundle'
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.min.js";
 
 import { Routes,Route } from 'react-router-dom'
 
@@ -12,7 +12,7 @@ import { ToastContainer, Zoom, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-import Counter from "./components/Counter";
+// import Counter from "./components/Counter";
 import MainNavbar from './components/MainNavbar';
 import Home from './pages/Home';
 import Sale from './pages/Sale';
@@ -44,7 +44,7 @@ function App() {
         <Route path="/fragrances" element={<Fragrances/>}/>
     </Routes>
     <End />
-    <Counter />
+    {/* <Counter />
     <ToastContainer
 position="top-right"
 autoClose={5000}
@@ -57,7 +57,7 @@ draggable
 pauseOnHover
 theme="dark"
 transition={Zoom}
-/>
+/> */}
    </>
     );
 }

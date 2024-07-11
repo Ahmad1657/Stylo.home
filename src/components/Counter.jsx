@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { CiHospital1 } from 'react-icons/ci'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 
