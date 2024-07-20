@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Loader from '../components/Loader'
+import { Link } from 'react-router-dom'
 
 const Summer24 = () => {
   const [products, setProducts] = useState([])
@@ -14,30 +15,32 @@ const Summer24 = () => {
   useEffect(() => {
     fetchData()
   }, [])
-  
+
   return (
 
     <>
 
-      { loader ? <Loader /> : <div className='pro'>
+      {loader ? <Loader /> : <div className='pro'>
         {
           products.map((product) => {
             return (
-              <div className='card' style={{ width: '18rem' }}>
-                <img src={product.image} className='card-img-top' alt='...'/>
-                <div className='card-body'>
-                  <h5 className='card-title'>{product.title}</h5>
-                  <p className='card-text'>{product.description.slice(0 - 100)}</p>
-                  <h6 className='btn btn-danger'>Id :{product.id}</h6>
-                  <h6 className='btn btn-primary'>US$ {product.price}</h6>
-                  <h6 className='btn btn-secondary'>Rate :{product.rating.rate}</h6>
-                  <h6 className='btn btn-secondary'>Count :{product.rating.count}</h6>
+              <Link to={`/product/${product.id}`}>
+                <div className='card' style={{ width: '18rem' }}>
+                  <img src={product.image} className='card-img-top' alt='...' width={350} height={300}/>
+                  <div className='card-body'>
+                    <h5 className='card-title'>{product.title}</h5>
+                    <p className='card-text'>{product.description.slice(0 - 100)}</p>
+                    <h6 className='btn btn-danger'>Id :{product.id}</h6>
+                    <h6 className='btn btn-primary'>US$ {product.price}</h6>
+                    <h6 className='btn btn-secondary'>Rate :{product.rating.rate}</h6>
+                    <h6 className='btn btn-secondary'>Count :{product.rating.count}</h6>
+                  </div>
                 </div>
-              </div>
+              </Link>
             )
           })
         }
-      </div>  }
+      </div>}
 
     </>
 
