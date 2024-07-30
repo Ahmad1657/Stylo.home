@@ -1,5 +1,5 @@
 const Product = require("../models/product.model");
-const { param } = require("../routes");
+// const { param } = require("../routes");
 
 exports.store = async (req, res) => {
     try {
