@@ -12,8 +12,8 @@ const ProductDescription = () => {
     const [loader,setLoader]=useState(false);
     const fetchProduct=async()=>{
          setLoader(true);
-        const response=await axios.get(`https://fakestoreapi.com/products/${id}`);
-        setProduct(response.data)
+        const response=await axios.get(`http://localhost:8080/api/admin/product/${id}`);
+        setProduct(response.data.product)
         setLoader(false);
     }
     useEffect(()=>{
@@ -25,12 +25,11 @@ const ProductDescription = () => {
                              <div className="row">
                               <div className="product col-lg-6 col-md-12 col-sm-12"><img src={product?.image} alt={product?.title} width={450} height={350} /></div>
                                 <div className="col-lg-6 col-md-12 col-sm-12 py-2">
-                                      <h3>{product?.title}</h3>
+                                      <h3>{product?.name}</h3>
                                       <p><h6>Description:</h6>{product?.description}</p>
                                       <h6>Category : <b>{product?.category}</b></h6>
-                                      <h6>Rate : {product?.rating?.rate}</h6>
-                                      <h6>Count : {product?.rating?.count}</h6>
                                       <h4>US $ {product?.price}</h4>
+                                     
                                       <div><Counter /></div>
                                 </div>
                              </div>
