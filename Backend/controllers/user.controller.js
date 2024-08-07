@@ -1,9 +1,10 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcrypt")
 const Salt = 10;
+var jwt = require('jsonwebtoken');
 
 
-exports.store = async (req, res) => {
+exports.register = async (req, res) => {
     try {
         const { password } = req.body;
         const encryptedPassword = await bcrypt.hash(password,Salt)
@@ -20,17 +21,19 @@ exports.login = async (req, res) => {
     try {
         const { email,password } = req.body;
         const user = await User.findOne({email:email});
-        if(user){
-            const comparePassword=await bcrypt.compare(password,user.password)
-            if(comparePassword){
-                return res.json({message:"User Login Successfully."})
-            }
-            else{
-                return res.json({message:"Wrong Password"})
-            }
+        if(!user){
+            res.json({ status: 200, message: "User not found", success:false})
         }
-        
-        res.json({ status: 200, message: "User not found"})
+
+        const comparePassword=await bcrypt.compare(password,user.password)
+        if(comparePassword){
+            var token = jwt.sign({ id:user._id }, 'shhh');
+            return res.json({status: 200, message:"User Login Successfully.", success:true, token:token})
+        }
+        else{
+            return res.json({status: 404, message:"Wrong Password", success:false})
+        }
+         
     }
     catch (err) {
         console.log(err);
