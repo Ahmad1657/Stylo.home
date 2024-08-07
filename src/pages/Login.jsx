@@ -16,7 +16,7 @@ const Login = () => {
     useEffect(()=>{
         if(token){
         localStorage.setItem('token',token);
-        navigate("/");
+        navigate("/dashboard");
     }
     },[token]);
 
@@ -26,6 +26,11 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if ( !email || !password ) {
+            toast.error("Please fill out all fields");
+            return;
+          }
 
         const response = await axios.post("http://localhost:8080/api/admin/user/login", formData)
         if (response.data.success) {

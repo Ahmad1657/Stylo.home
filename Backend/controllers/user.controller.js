@@ -20,18 +20,18 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
     try {
         const { email,password } = req.body;
-        const user = await User.findOne({email:email});
+        const user = await User.findOne({ email:email });
         if(!user){
-            res.json({ status: 200, message: "User not found", success:false})
+            res.json({ status: 404, message: "User not found", success:false})
         }
 
-        const comparePassword=await bcrypt.compare(password,user.password)
+        const comparePassword=await bcrypt.compare(password, user.password);
         if(comparePassword){
-            var token = jwt.sign({ id:user._id }, 'shhh');
+            var token = jwt.sign({ id:user._id }, 'abc123456');
             return res.json({status: 200, message:"User Login Successfully.", success:true, token:token})
         }
         else{
-            return res.json({status: 404, message:"Wrong Password", success:false})
+            return res.json({status: 401, message:"Wrong Password", success:false})
         }
          
     }
