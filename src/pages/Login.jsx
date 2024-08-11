@@ -13,13 +13,6 @@ const Login = () => {
     const navigate = useNavigate();
     const { email, password } = formData;
 
-    useEffect(()=>{
-        if(token){
-        localStorage.setItem('token',token);
-        navigate("/dashboard");
-    }
-    },[token]);
-
     const onChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     }
@@ -36,6 +29,8 @@ const Login = () => {
         if (response.data.success) {
             setToken(response.data.token);
             toast.success(response.data.message);
+            localStorage.setItem('token',response.data.token);
+            navigate("/dashboard");
         }
         else {
             toast.error(response.data.message)

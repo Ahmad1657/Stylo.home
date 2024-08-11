@@ -30,19 +30,23 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      toast.error("Password Dose not Match")
-    }
+
     if (!name || !email || !phone || !country || !password || !confirmPassword) {
       toast.error("Please fill out all fields");
       return;
     }
-    else {
-      const response=await axios.post("http://localhost:8080/api/admin/user/register",formData)
-      console.log(response)
 
-      toast.success("Register Successfully")
-      navigate("/")
+    if (password !== confirmPassword) {
+      toast.error("Password Dose not Match");
+      return;
+    }
+    
+    try {
+      const response = await axios.post("http://localhost:8080/api/admin/user/register", formData);
+      toast.success("Register Successfully");
+      navigate("/");
+    } catch (error) {
+      toast.error("Registration failed");
     }
 
   }
