@@ -44,7 +44,7 @@ const Signup = () => {
     try {
       const response = await axios.post("http://localhost:8080/api/admin/user/register", formData);
       toast.success("Register Successfully");
-      navigate("/login");
+      navigate("/verifycode");
     } catch (error) {
       toast.error("Registration failed");
     }

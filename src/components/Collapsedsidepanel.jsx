@@ -13,6 +13,7 @@ const Collapsedsidepanel = () => {
 
   const closeNav = () => {
     setSidePanelWidth("0");
+    window.scrollTo(0,0);
   };
 
   return (

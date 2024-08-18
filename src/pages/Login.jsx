@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 
 const Login = () => {
@@ -47,6 +48,9 @@ const Login = () => {
                 <button className='btn my-2' style={{ backgroundColor: '#e6007e', color: '#ffffff' }} type='submit'>
                     Login
                 </button>
+                <Link className='link' to={'/verifycode'}>
+                    <p>Forgot Password?</p>
+               </Link>
             </div>
         </form>
     )

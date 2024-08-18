@@ -7,6 +7,8 @@ const userSchema= mongoose.Schema({
     age:{type:Number},
     country:{type:String},
     phone:{type:Number},
+    code:{type:String},
+    isEmailverified:{type:Boolean,default:false},
 });
 
 module.exports = mongoose.model('User',userSchema);
