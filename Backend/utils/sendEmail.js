@@ -7,8 +7,8 @@ const verifyEmail = (email,subject,text) => {
         port: 587,
         secure: false, // Use `true` for port 465, `false` for all other ports
         auth: {
-            user: "	madisen.gaylord@ethereal.email",
-            pass: "zNDWVkN7gyK58yY8gK",
+            user: "murray.cartwright83@ethereal.email",
+            pass: "ehazppqat1FxH5HzcS",
         },
     });
 

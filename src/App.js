@@ -29,6 +29,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Verifycode from "./pages/Verifycode";
+import Forgotpassword from "./pages/Forgotpassword";
 
 
 
@@ -51,6 +52,7 @@ function App() {
                 <Route path="/login" element={<Login/>} />
                 <Route path="/dashboard" element={<Dashboard/>}/>
                 <Route path="/verifycode" element={<Verifycode />} />
+                <Route path="/forgotpassword" element={<Forgotpassword/>} />
             </Routes>
             <End />
 

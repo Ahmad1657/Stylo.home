@@ -48,7 +48,7 @@ const Login = () => {
                 <button className='btn my-2' style={{ backgroundColor: '#e6007e', color: '#ffffff' }} type='submit'>
                     Login
                 </button>
-                <Link className='link' to={'/verifycode'}>
+                <Link className='link' to={'/forgotpassword'}>
                     <p>Forgot Password?</p>
                </Link>
             </div>

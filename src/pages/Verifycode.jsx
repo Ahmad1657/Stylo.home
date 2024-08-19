@@ -9,8 +9,7 @@ const Verifycode = () => {
     const [formData, setFormData] = useState({
         code: '',
     })
-    const [token, setToken] = useState(null);
-    const navigate = useNavigate();
+    const navigate= useNavigate();
     const { code }=formData;
     const onChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,16 +18,11 @@ const Verifycode = () => {
     const handleSubmit= async (e)=>{
         e.preventDefault();
 
-        const response = await axios.post("http://localhost:8080/api/admin/user/verify", formData)
-        console.log(response)
+        const response = await axios.post("http://localhost:8080/api/admin/user/verify", formData);
         if(response.data.success){
-            setToken(response.data.token);
-            toast.success(response.data.message);
-            localStorage.setItem('token',response.data.token);
-            navigate("/dashboard");
-        }
-        if(!code){
-            toast.error(response.data.message)
+            toast.success(response.data.message)
+            localStorage.setItem("token",response.data.token);
+            navigate('/dashboard');
         }
     }
 
