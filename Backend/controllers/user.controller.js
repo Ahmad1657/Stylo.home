@@ -2,8 +2,7 @@ const User = require("../models/user.model");
 const bcrypt = require("bcrypt")
 const Salt = 10;
 var jwt = require('jsonwebtoken');
-const sendmail = require('../utils/sendmail');
-const { Navigate } = require("react-router-dom");
+const sendEmail = require('../utils/sendEmail');
 
 
 exports.register = async (req, res) => {
@@ -20,7 +19,7 @@ exports.register = async (req, res) => {
         user.save();
         const subject = "Welcome to Stylo";
         const text = `This is a greeting note for you as you have registered on our website.Thnks.This is your verification code ${randomNumber}`;
-        sendmail(user.email, subject, text);
+        sendEmail(user.email, subject, text);
 
         res.json({ status: 200, message: "User created successfully", user })
     }
@@ -67,7 +66,7 @@ exports.forgotPassword = async (req, res) => {
 
         const subject = "Welcome to Stylo";
         const text = `This is a greeting note for you as you have registered on our website.Thnks.This is your verification code ${randomNumber}`;
-        sendmail(user.email,subject,text)
+        sendEmail(user.email,subject,text)
 
          return res.json ({ status:200, message:"Verification Code sent on your Email", success:true})
 
