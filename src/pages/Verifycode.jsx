@@ -24,6 +24,9 @@ const Verifycode = () => {
             localStorage.setItem("token",response.data.token);
             navigate('/dashboard');
         }
+        else{
+            toast.error(response.data.message)
+        }
     }
 
   return (

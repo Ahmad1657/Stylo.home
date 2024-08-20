@@ -6,7 +6,15 @@ const sendEmail = require('../utils/sendEmail');
 
 
 exports.register = async (req, res) => {
+    const { email } = req.body;
     try {
+
+        // Check if email already exists
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+          return res.json({status:400, success: false, message: 'Email already exist'});
+     }
+        
         const { password } = req.body;
         const encryptedPassword = await bcrypt.hash(password, Salt)
         req.body.password = encryptedPassword;
@@ -21,7 +29,7 @@ exports.register = async (req, res) => {
         const text = `This is a greeting note for you as you have registered on our website.Thnks.This is your verification code ${randomNumber}`;
         sendEmail(user.email, subject, text);
 
-        res.json({ status: 200, message: "User created successfully", user })
+        res.json({ status: 200, message: "User created successfully", success:true, user })
     }
     catch (err) {
         console.log(err);
@@ -33,6 +41,10 @@ exports.verifyUser = async (req, res) => {
         const {code}= req.body
         
        const user = await User.findOne({code:code})
+
+       if(!user){
+        return res.json ({status:404, message:"Wrong Verification Code", success:false})
+       }
        
        
       if(code === user.code){
@@ -40,9 +52,6 @@ exports.verifyUser = async (req, res) => {
         user.code=null;
         user.save();
         var token = jwt.sign({ id: user._id }, 'abc123456');
-      }
-      else{
-        return res.json ({status:404, message:"Wrong Verification Code", success:false})
       }
       return res.json ({status:200, message:"Verified Successfully",token, success:true})
     }
