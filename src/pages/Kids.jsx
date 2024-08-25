@@ -26,7 +26,7 @@ const Kids = () => {
             return (
               <Link to={`/product/${product._id}`}>
                 <div className='card' style={{ width: '18rem' }}>
-                  <img src={product.image} className='card-img-top' alt='...' width={400} height={200}/>
+                  <img src={`http://localhost:8080/uploads/${product.image}`} className='card-img-top' alt='...' width={400} height={200}/>
                   <div className='card-body'>
                     <h5 className='card-title'>{product.name}</h5>
                     <p className='card-text'>{product.description.slice(0 - 100)}</p>

@@ -3,8 +3,9 @@ const Product = require("../models/product.model");
 
 exports.store = async (req, res) => {
     try {
+        req.body.image = req.file.filename;
         const product = await Product.create(req.body)
-        res.json({ status: 200, message: "Product created successfully", product })
+        res.json({ status: 200, message: "Product created successfully", success:true, product })
     }
     catch (err) {
         console.log(err);
