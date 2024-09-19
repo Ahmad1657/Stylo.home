@@ -23,7 +23,7 @@ const ProductDescription = () => {
     <>
   { loader ? <Loader/> : <div className='container-fluid' style={{margin:'5% 0'}}>
                              <div className="row">
-                              <div className="product col-lg-6 col-md-12 col-sm-12"><img src={product?.image} alt={product?.title} width={450} height={350} /></div>
+                              <div className="product col-lg-6 col-md-12 col-sm-12"><img src={`http://localhost:8080/uploads/${product?.image}`}  width={450} height={350} /></div>
                                 <div className="col-lg-6 col-md-12 col-sm-12 py-2">
                                       <h3>{product?.name}</h3>
                                       <p><h6>Description:</h6>{product?.description}</p>

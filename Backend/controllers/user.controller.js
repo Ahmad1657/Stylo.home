@@ -18,13 +18,16 @@ exports.register = async (req, res) => {
         const { password } = req.body;
         const encryptedPassword = await bcrypt.hash(password, Salt)
         req.body.password = encryptedPassword;
+
         //Below code create 6 Digit verification Code
         const randomNumber = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
 
+        req.body.code = randomNumber ;
+
         const user = await User.create(req.body)
 
-        user.code = randomNumber;
-        user.save();
+
+        
         const subject = "Welcome to Stylo";
         const text = `This is a greeting note for you as you have registered on our website.Thnks.This is your verification code ${randomNumber}`;
         sendEmail(user.email, subject, text);

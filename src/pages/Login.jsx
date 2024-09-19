@@ -4,8 +4,13 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+
 
 const Login = () => {
+
+    const [showPassword, setShowPassword] = useState(false);
+
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -21,17 +26,17 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if ( !email || !password ) {
+        if (!email || !password) {
             toast.error("Please fill out all fields");
             return;
-          }
+        }
 
         const response = await axios.post("http://localhost:8080/api/admin/user/login", formData)
         if (response.data.success) {
             setToken(response.data.token);
             toast.success(response.data.message);
-            localStorage.setItem('token',response.data.token);
-            navigate("/dashboard");
+            localStorage.setItem('token', response.data.token);
+            navigate("/");
         }
         else {
             toast.error(response.data.message)
@@ -39,20 +44,99 @@ const Login = () => {
     }
     return (
 
-        <form onSubmit={handleSubmit}>
-            <div className='d-flex justify-content-center flex-column align-items-center'>
-                <label>Email:</label>
-                <input type='email' name='email' value={email} onChange={onChange} />
-                <label>Password:</label>
-                <input type='password' name='password' value={password} onChange={onChange} />
-                <button className='btn my-2' style={{ backgroundColor: '#e6007e', color: '#ffffff' }} type='submit'>
-                    Login
-                </button>
-                <Link className='link' to={'/forgotpassword'}>
-                    <p>Forgot Password?</p>
-               </Link>
+        <div className="content">
+            <div className='container-fluid'>
+                <div className="container" style={{ marginTop: '30px', padding: '20px 80px' }}>
+                    <form onSubmit={handleSubmit}>
+
+                        <div className="createteamform">
+
+                            <div className="title"
+                                style={{
+                                    display: 'inline-block',
+                                    position: 'relative',
+                                    top: '25px',
+                                    left: '25px',
+                                    zIndex: '1',
+                                    padding: '0 10px',
+                                    backgroundColor: 'white',
+                                }}>
+                                <h2> Login </h2>
+                            </div>
+
+                            <div className="personalinfo"
+                                style={{
+                                    border: '1px solid #003366',
+                                    borderRadius: '25px',
+                                    padding: '35px',
+                                }}>
+
+                                <div className='form-group'>
+                                    <label>E-mail</label>
+                                    <input className='form-control' type="email" name='email' value={email} onChange={onChange} />
+                                </div>
+
+                                <div className='form-group mt-3'>
+                                    <label>Password</label>
+
+                                    <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                                        <input
+                                            className='form-control'
+                                            type={showPassword ? 'text' : 'password'}
+                                            name='password'
+                                            value={password}
+                                            onChange={onChange}
+                                            maxLength='10'
+                                            pattern='\d{10}'
+                                            title='Enter 10 Digit Password Atleast'
+                                            style={{ paddingRight: '40px' }} // Extra padding for the icon
+                                        />
+
+                                        <span
+                                            onClick={() => setShowPassword((prev) => !prev)}
+                                            style={{
+                                                position: 'absolute',
+                                                right: '10px', // Adjust as per need
+                                                cursor: 'pointer',
+                                                color: '#6c757d',
+                                            }}
+                                        >
+                                            {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '5px' }}>
+                                    <button className='btn buttons mt-3' type='submit' style={{ backgroundColor: '#e6007e', color: '#ffffff', }}>
+                                        Login
+                                    </button>
+                                </div>
+
+                                <div className="loginPglinks" style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    gap: '40px',
+                                    marginTop: '25px',
+                                }}>
+
+                                    <Link className='link' to={'/signup'} >
+                                        <p>Don't have an Account ?</p>
+                                    </Link>
+
+                                    <Link className='link' to={'/forgotpassword'} >
+                                        <p>Forget Password ?</p>
+                                    </Link>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
             </div>
-        </form>
+        </div>
     )
 }
 

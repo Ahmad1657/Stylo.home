@@ -3,14 +3,28 @@ const Product = require("../models/product.model");
 
 exports.store = async (req, res) => {
     try {
+        // Check if an image file was uploaded
+        if (!req.file) {
+            return res.status(400).json({ status: 400, message: "No image file uploaded", success: false });
+        }
+
+        // Add the image filename to the request body
         req.body.image = req.file.filename;
-        const product = await Product.create(req.body)
-        res.json({ status: 200, message: "Product created successfully", success:true, product })
+
+        // Create the product in the database
+        const product = await Product.create(req.body);
+
+        // Return success response
+        res.status(201).json({ status: 201, message: "Product created successfully", success: true, product });
     }
     catch (err) {
-        console.log(err);
+        console.error('Error creating product:', err);
+
+        // Return an error response
+        res.status(500).json({ status: 500, message: "Internal server error", success: false });
     }
 };
+
 
 exports.index = async (req, res) => {
     try {

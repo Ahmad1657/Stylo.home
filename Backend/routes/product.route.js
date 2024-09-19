@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
         // Extract the file extension
         const ext = path.extname(file.originalname);
         // Set the file name with its original extension
-        cb(null, file.fieldname + '-' + Date.now() + ext);
+        cb(null, file.filename + '-' + Date.now() + ext);
       }
 })
 const upload = multer({ storage: storage });

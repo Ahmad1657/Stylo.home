@@ -6,23 +6,28 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const Signup = () => {
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    gender: '',
     phone: "",
     country: "",
     password: '',
     confirmPassword: ''
   })
   const navigate = useNavigate();
-  const { name, email, phone, country, password, confirmPassword } = formData;
+  const { name, email, gender, phone, country, password, confirmPassword } = formData;
   const options = useMemo(() => countryList().getData(), [])
 
   const changeCountryHandler = (selectedOption) => {
-    setFormData({ ...formData, country: selectedOption ? selectedOption.value:''});
+    setFormData({ ...formData, country: selectedOption ? selectedOption.value : '' });
   };
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -40,52 +45,194 @@ const Signup = () => {
       toast.error("Password Dose not Match");
       return;
     }
-    
+
     try {
       const response = await axios.post("http://localhost:8080/api/admin/user/register", formData);
-      if(response.data.success){
-          toast.success("Register Successfully");
-          navigate("/verifycode");
-       }
-       else{
+      if (response.data.success) {
+        toast.success("Register Successfully");
+        navigate("/verifycode");
+      }
+      else {
         toast.error(response.data.message)
-       }
-    } 
+      }
+    }
     catch (error) {
-      
+
       toast.error("Registration failed");
-    
+
     }
 
   }
   return (
 
-    <form onSubmit={handleSubmit}>
-      <div className='d-flex justify-content-center flex-column align-items-center'>
-        <label>Name:</label>
-        <input type='text' name='name' value={name} onChange={onChange} />
-        <label>Email:</label>
-        <input type='email' name='email' value={email} onChange={onChange} />
-        <label>Phone:</label>
-        <input type='number' name='phone' value={phone} onChange={onChange} />
-        <label>Country:</label>
-        <Select options={options} name='country' value={options.find(option => option.value === country)} onChange={changeCountryHandler} />
-        <label>Password:</label>
-        <input type='password' name='password' value={password} onChange={onChange} />
-        <label>Confirm Password:</label>
-        <input type='password' name='confirmPassword' value={confirmPassword} onChange={onChange} />
+    <div className="content">
+      <div className='container-fluid'>
+        <div className="container" style={{ marginTop: '30px', padding: '20px 80px' }}>
+          <form onSubmit={handleSubmit}>
 
-        <button className='btn my-2' style={{ backgroundColor: '#e6007e', color: '#ffffff' }} type='submit'>
-          Register
-        </button>
-           
-        <Link className='link' to={'/login'}>
-           <p>Already have an Account?</p>
-        </Link>
-       
+            <div className="createteamform">
+
+              <div className="title"
+                style={{
+                  display: 'inline-block',
+                  position: 'relative',
+                  top: '25px',
+                  left: '25px',
+                  zIndex: '1',
+                  padding: '0 10px',
+                  backgroundColor: 'white',
+                }}>
+                <h2>Sign up / Register</h2>
+              </div>
+
+              <div className="personalinfo"
+                style={{
+                  border: '1px solid #003366',
+                  borderRadius: '25px',
+                  padding: '35px',
+                }}>
+
+                <div className='form-group'>
+                  <label>Name</label>
+                  <input className='form-control' type="text" name='name' value={name} onChange={onChange} />
+                </div>
+
+                <div className='form-group mt-3'>
+                  <label>Email</label>
+                  <input className='form-control'
+                    type="text"
+                    name='email'
+                    value={email}
+                    onChange={onChange}
+                  />
+                </div>
+
+                <div className='form-group mt-3' style={{ display: 'flex', gap: '25px', marginLeft: '5px' }}>
+                  <div className=''>
+                    <label>
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="Male"
+                        checked={formData.gender === "Male"}
+                        onChange={onChange}
+                        style={{ marginRight: '8px' }}
+                      />
+                      Male
+                    </label>
+                  </div>
+
+                  <div className=''>
+                    <label>
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="Female"
+                        checked={formData.gender === "Female"}
+                        onChange={onChange}
+                        style={{ marginRight: '8px' }}
+                      />
+                      Female
+                    </label>
+                  </div>
+                </div>
+
+
+                <div className='form-group mt-3'>
+                  <label>Phone</label>
+                  <input className='form-control' type="text" name='phone' value={phone} onChange={onChange} />
+                </div>
+
+                <div className='form-group mt-3'>
+                  <label> Country </label>
+                  <Select options={options} name='country' value={options.find(option => option.value === country)} onChange={changeCountryHandler} />
+                </div>
+
+
+
+                <div className='form-group mt-3'>
+                  <label>Password</label>
+
+                  <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                    <input
+                      className='form-control'
+                      type={showPassword ? 'text' : 'password'}
+                      name='password'
+                      value={password}
+                      onChange={onChange}
+                      maxLength='10'
+                      pattern='\d{10}'
+                      title='Enter 10 Digit Password Atleast'
+                      style={{ paddingRight: '40px' }} // Extra padding for the icon
+                    />
+
+                    <span
+                      onClick={() => setShowPassword((prev) => !prev)}
+                      style={{
+                        position: 'absolute',
+                        right: '10px', // Adjust as per need
+                        cursor: 'pointer',
+                        color: '#6c757d',
+                      }}
+                    >
+                      {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
+                    </span>
+                  </div>
+                </div>
+
+
+                <div className='form-group mt-3'>
+                  <label>Password</label>
+
+                  <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                    <input
+                      className='form-control'
+                      type={showPassword2 ? 'text' : 'password'}
+                      name='confirmPassword'
+                      value={confirmPassword}
+                      onChange={onChange}
+                      maxLength='10'
+                      pattern='\d{10}'
+                      title='Enter 10 Digit Password Atleast'
+                      style={{ paddingRight: '40px' }} // Extra padding for the icon
+                    />
+
+                    <span
+                      onClick={() => setShowPassword2((prev) => !prev)}
+                      style={{
+                        position: 'absolute',
+                        right: '10px', // Adjust as per need
+                        cursor: 'pointer',
+                        color: '#6c757d',
+                      }}
+                    >
+                      {showPassword2 ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
+                    </span>
+                  </div>
+                </div>
+
+
+
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '5px' }}>
+                <button className='btn buttons mt-4' type='submit' style={{ backgroundColor: '#e6007e', color: '#ffffff', }}>
+                  Sign Up
+                </button>
+              </div>
+
+              <Link className='link' to={'/login'} style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+                <p>Already have an Account?</p>
+              </Link>
+
+            </div>
+
+          </form>
+        </div>
 
       </div>
-    </form>
+    </div>
+
   )
 }
 
