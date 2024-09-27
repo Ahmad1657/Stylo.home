@@ -45,8 +45,8 @@ const Login = () => {
     return (
 
         <div className="content">
-            <div className='container-fluid'>
-                <div className="container" style={{ marginTop: '30px', padding: '20px 80px' }}>
+            <div className='container-fluid loginform' style={{ marginTop: '30px', padding: '20px 60px' }}>
+              
                     <form onSubmit={handleSubmit}>
 
                         <div className="createteamform">
@@ -133,7 +133,7 @@ const Login = () => {
                             </div>
                         </div>
                     </form>
-                </div>
+                
 
             </div>
         </div>

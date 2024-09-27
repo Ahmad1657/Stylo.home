@@ -34,8 +34,8 @@ const Verifycode = () => {
 
     return (
         <div className="content">
-            <div className='container-fluid'>
-                <div className="container" style={{ marginTop: '30px', padding: '20px 80px' }}>
+            <div className='container-fluid loginform' style={{ marginTop: '30px', padding: '20px 80px' }}>
+
                     <form onSubmit={handleSubmit}>
 
                         <div className="createteamform">
@@ -101,7 +101,7 @@ const Verifycode = () => {
                             </div>
                         </div>
                     </form>
-                </div>
+            
 
             </div>
         </div>

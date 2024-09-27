@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import axios from 'axios';
 import useWindowSize from './useWindowSize';
 
 import { BsTelephone } from "react-icons/bs";
@@ -14,6 +16,24 @@ import { FaXTwitter } from "react-icons/fa6";
 import { FaFacebook } from "react-icons/fa";
 
 const Large = () => {
+
+    const [formData, setFormData] = useState({
+        email: '',
+    })
+    const { email } = formData;
+    const onChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+    const handleSubmit = async (e) => {
+        const response = await axios.post("http://localhost:8080/api/admin/subscribe/subscribe", formData)
+        if (response.data.success) {
+            toast.success(response.data.message);
+        }
+        else {
+            toast.error(response.data.message);
+        }
+    }
+
     return (
         <div>
             <div className='container-fluid' style={{ marginTop: '35px', backgroundColor: '#f0f0f0' }}>
@@ -138,13 +158,48 @@ const Large = () => {
                                 <div className='newsletter-signup' style={{ marginTop: '25px' }}>
                                     <p>Subscribe and Stay Updated!</p>
                                 </div>
-                                <div className='email row'>
-                                    <input className='mailbox col-12 col-lg-8 col-md-8' type='email' placeholder='Your Email Address' />
-                                    <button className='mailsubmit col-12 col-lg-4 col-md-3' type='submit'
-                                        style={{ backgroundColor: '#e6007e', color: '#f0f0f0', border: 'none' }}>
-                                        <span>Subscribe</span>
-                                    </button>
-                                </div>
+                                <form onSubmit={handleSubmit}>
+                                    <div className="email row justify-content-center align-items-center"
+                                        style={{
+                                            padding: '20px 0'
+                                        }}>
+                                        <div className="col-lg-8 col-md-8 p-1">
+                                            <input
+                                                className="mailbox form-control"
+                                                type="email"
+                                                name='email'
+                                                value={email}
+                                                onChange={onChange}
+                                                placeholder="Your Email Address"
+                                                style={{
+                                                    padding: '10px 0px 10px 0px',
+                                                    fontSize: '14px',
+                                                    textAlign: 'center',
+                                                    borderRadius: '4px',
+                                                    border: '1px solid #ccc',
+                                                    width: '100%',
+                                                }}
+                                            />
+                                        </div>
+                                        <div className="col-lg-4 col-md-4 p-1">
+                                            <button
+                                                className="mailsubmit btn btn-block"
+                                                type="submit"
+                                                style={{
+                                                    backgroundColor: '#e6007e',
+                                                    color: '#fff',
+                                                    padding: '10px 0px 10px 0px',
+                                                    fontSize: '14px',
+                                                    border: 'none',
+                                                    borderRadius: '4px',
+                                                    width: '100%',
+                                                }}
+                                            >
+                                                <span style={{padding:'3px'}} >Subscribe</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
 
@@ -179,8 +234,26 @@ const Large = () => {
 
 const Small = () => {
 
+    const [formData, setFormData] = useState({
+        email: '',
+    })
+    const { email } = formData;
+    const onChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const response = await axios.post("http://localhost:8080/api/admin/subscribe/subscribe", formData)
+        if (response.data.success) {
+            toast.success(response.data.message);
+        }
+        else {
+            toast.error(response.data.message);
+        }
+    }
+
     return (
-        <div style={{backgroundColor:'#f0f0f0'}}>
+        <div style={{ backgroundColor: '#f0f0f0' }}>
 
             <div className='container-fluid'>
                 <div className='row'>
@@ -215,14 +288,14 @@ const Small = () => {
                 <div className='accordion-item'>
                     <h2 className='accordion-header' id='flush-headingOne'>
                         <button className='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#flush-collapseOne' aria-expanded='false' aria-controls='flush-collapseOne'>
-                        <h5>Get in touch</h5>
+                            <h5>Get in touch</h5>
                         </button>
                     </h2>
                     <div id='flush-collapseOne' className='accordion-collapse collapse' aria-labelledby='flush-headingOne' data-bs-parent='#accordionFlushExample'>
                         <div className='accordion-body'>
 
                             <div className='b1'>
-                                <div className='contact-links' style={{ margin: '25px 0'}}>
+                                <div className='contact-links' style={{ margin: '25px 0' }}>
                                     <div className='call'>
                                         <span style={{ fontSize: '18px' }}><BsTelephone /></span>
                                         <a href="mailto:+92%2042%20111178956"
@@ -264,7 +337,7 @@ const Small = () => {
                 <div className='accordion-item'>
                     <h2 className='accordion-header' id='flush-headingTwo'>
                         <button className='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#flush-collapseTwo' aria-expanded='false' aria-controls='flush-collapseTwo'>
-                        <h5>About</h5>
+                            <h5>About</h5>
                         </button>
                     </h2>
                     <div id='flush-collapseTwo' className='accordion-collapse collapse' aria-labelledby='flush-headingTwo' data-bs-parent='#accordionFlushExample'>
@@ -286,7 +359,7 @@ const Small = () => {
                 <div className='accordion-item'>
                     <h2 className='accordion-header' id='flush-headingThree'>
                         <button className='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#flush-collapseThree' aria-expanded='false' aria-controls='flush-collapseThree'>
-                        <h5>Information</h5>
+                            <h5>Information</h5>
                         </button>
                     </h2>
                     <div id='flush-collapseThree' className='accordion-collapse collapse' aria-labelledby='flush-headingThree' data-bs-parent='#accordionFlushExample'>
@@ -311,7 +384,7 @@ const Small = () => {
                 <div className='accordion-item'>
                     <h2 className='accordion-header' id='flush-headingFour'>
                         <button className='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#flush-collapseFour' aria-expanded='false' aria-controls='flush-collapseFour'>
-                        <h4>Size Chart</h4>
+                            <h4>Size Chart</h4>
                         </button>
                     </h2>
                     <div id='flush-collapseFour' className='accordion-collapse collapse' aria-labelledby='flush-headingFour' data-bs-parent='#accordionFlushExample'>
@@ -341,15 +414,51 @@ const Small = () => {
                         <div className='accordion-body'>
 
                             <div className='b5'>
-                                <div className='newsletter-signup' style={{ margin: '25px 0'}}>
-                                    <p style={{textAlign:'center'}}><b>Subscribe and Stay Updated!</b></p>
+                                <div className='newsletter-signup' style={{ margin: '25px 0' }}>
+                                    <p style={{ textAlign: 'center' }}><b>Subscribe and Stay Updated!</b></p>
                                 </div>
-                                <div className='email row'>
-                                    <input className='mailbox col-12 col-lg-8 col-md-8' type='email' placeholder='Your Email Address' />
-                                    <button className='mailsubmit col-12 col-lg-4 col-md-3' type='submit'
-                                        style={{ backgroundColor: '#e6007e', color: '#f0f0f0', border: 'none' }}>
-                                        <span>Subscribe</span>
-                                    </button>
+                                <div className="email row justify-content-center align-items-center"
+                                    style={{
+                                        padding: '20px 0'
+                                    }}>
+                                    <form onSubmit={handleSubmit}>
+                                        <div className="col-12 col-lg-8 col-md-6">
+                                            <input
+                                                className="mailbox form-control"
+                                                type="email"
+                                                name='email'
+                                                value={email}
+                                                onChange={onChange}
+                                                placeholder="Your Email Address"
+                                                style={{
+                                                    padding: '10px 10px 10px 10px',
+                                                    fontSize: '14px',
+                                                    textAlign: 'center',
+                                                    borderRadius: '4px',
+                                                    border: '1px solid #ccc',
+                                                    width: '100%',
+                                                }}
+                                            />
+                                        </div>
+                                        <div className="col-lg-4 col-md-4">
+                                            <button
+                                                className="mailsubmit btn btn-block"
+                                                type="submit"
+                                                style={{
+                                                    backgroundColor: '#e6007e',
+                                                    color: '#fff',
+                                                    padding: '10px',
+                                                    marginTop: '15px',
+                                                    fontSize: '14px',
+                                                    border: 'none',
+                                                    borderRadius: '4px',
+                                                    width: '100%',
+                                                }}
+                                            >
+                                                <span>Subscribe</span>
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
 

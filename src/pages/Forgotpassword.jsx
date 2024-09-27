@@ -53,8 +53,8 @@ const Forgotpassword = () => {
 
     return (
 
-        <div className='container-fluid'>
-            <div className="container" style={{ marginTop: '30px', padding: '20px 80px' }}>
+        <div className='container-fluid loginform' style={{ marginTop: '30px', padding: '20px 80px' }}>
+            <div className="container">
                 <div className="createteamform">
                     <div className="title"
                         style={{

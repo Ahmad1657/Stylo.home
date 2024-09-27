@@ -10,11 +10,11 @@ exports.register = async (req, res) => {
     try {
 
         // Check if email already exists
-      const existingUser = await User.findOne({ email });
-      if (existingUser) {
-          return res.json({status:400, success: false, message: 'Email already exist'});
-     }
-        
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.json({ status: 400, success: false, message: 'Email already exist' });
+        }
+
         const { password } = req.body;
         const encryptedPassword = await bcrypt.hash(password, Salt)
         req.body.password = encryptedPassword;
@@ -22,17 +22,17 @@ exports.register = async (req, res) => {
         //Below code create 6 Digit verification Code
         const randomNumber = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
 
-        req.body.code = randomNumber ;
+        req.body.code = randomNumber;
 
         const user = await User.create(req.body)
 
 
-        
+
         const subject = "Welcome to Stylo";
         const text = `This is a greeting note for you as you have registered on our website.Thnks.This is your verification code ${randomNumber}`;
         sendEmail(user.email, subject, text);
 
-        res.json({ status: 200, message: "User created successfully", success:true, user })
+        res.json({ status: 200, message: "User created successfully", success: true, user })
     }
     catch (err) {
         console.log(err);
@@ -40,56 +40,56 @@ exports.register = async (req, res) => {
 };
 
 exports.verifyUser = async (req, res) => {
-    try{
-        const {code}= req.body
-        
-       const user = await User.findOne({code:code})
+    try {
+        const { code } = req.body
 
-       if(!user){
-        return res.json ({status:404, message:"Wrong Verification Code", success:false})
-       }
-       
-       
-      if(code === user.code){
-        user.isEmailverified=true;
-        user.code=null;
-        user.save();
-        var token = jwt.sign({ id: user._id }, 'abc123456');
-      }
-      return res.json ({status:200, message:"Verified Successfully",token, success:true})
+        const user = await User.findOne({ code: code })
+
+        if (!user) {
+            return res.json({ status: 404, message: "Wrong Verification Code", success: false })
+        }
+
+
+        if (code === user.code) {
+            user.isEmailverified = true;
+            user.code = null;
+            user.save();
+            var token = jwt.sign({ id: user._id }, 'abc123456');
+        }
+        return res.json({ status: 200, message: "Verified Successfully", token, success: true })
     }
-    catch(err){
-      console.log(err);
+    catch (err) {
+        console.log(err);
     }
 }
 
 exports.forgotPassword = async (req, res) => {
-    try{
+    try {
         const { email, code } = req.body;
         const user = await User.findOne({ email: email });
-    
 
-       if(user){
-        const randomNumber = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
-       
-        user.isEmailverified=false;
-        user.code=randomNumber;
-        user.save();
 
-        const subject = "Welcome to Stylo";
-        const text = `This is a greeting note for you as you have registered on our website.Thnks.This is your verification code ${randomNumber}`;
-        sendEmail(user.email,subject,text)
+        if (user) {
+            const randomNumber = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
 
-         return res.json ({ status:200, message:"Verification Code sent on your Email", success:true})
+            user.isEmailverified = false;
+            user.code = randomNumber;
+            user.save();
 
-       }
-       else {
-        return res.json ({ status:404, message:"User not found", success:false})
-      }
-    
+            const subject = "Welcome to Stylo";
+            const text = `This is a greeting note for you as you have registered on our website.Thnks.This is your verification code ${randomNumber}`;
+            sendEmail(user.email, subject, text)
+
+            return res.json({ status: 200, message: "Verification Code sent on your Email", success: true })
+
+        }
+        else {
+            return res.json({ status: 404, message: "User not found", success: false })
+        }
+
 
     }
-    catch(err){
+    catch (err) {
         console.log(err)
     }
 }
