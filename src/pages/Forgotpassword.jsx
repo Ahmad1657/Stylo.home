@@ -41,8 +41,13 @@ const Forgotpassword = () => {
         const response = await axios.post("http://localhost:8080/api/admin/user/verify", formData)
 
         if (response.data.success) {
+            const UserToken = (response.data.token);
+            const UserRole = (response.data.role);
+            
+            document.cookie = `userToken=${UserToken}; path=/; expires=${new Date(Date.now() + 3600000).toUTCString()}; secure`;
+            document.cookie = `userRole=${UserRole}; path=/; expires=${new Date(Date.now() + 3600000).toUTCString()}; secure`;
+
             toast.success(response.data.message)
-            localStorage.setItem("token", response.data.token);
             navigate('/');
         }
         else {

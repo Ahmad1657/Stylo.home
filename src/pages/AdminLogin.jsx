@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios'
+import CryptoJS from 'crypto-js';
 
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
@@ -14,8 +15,8 @@ const AdminLogin = () => {
         email: '',
         password: '',
     })
-    const [token, setToken] = useState(null);
-    const navigate = useNavigate();
+
+    const navigate = useNavigate(null);
     const { email, password } = formData;
 
     const onChange = (e) => {
@@ -32,9 +33,13 @@ const AdminLogin = () => {
 
         const response = await axios.post("http://localhost:8080/api/admin/adminpanel/login", formData)
         if (response.data.success) {
-            setToken(response.data.token);
+            const AdminToken = (response.data.token);
+            const AdminRole = (response.data.role);
+
+            document.cookie = `adminToken=${AdminToken}; path=/; expires=${new Date(Date.now() + 3600000).toUTCString()}; secure`;
+            document.cookie = `adminRole=${AdminRole}; path=/; expires=${new Date(Date.now() + 3600000).toUTCString()}; secure`;
+           
             toast.success(response.data.message);
-            localStorage.setItem('token', response.data.token);
             navigate("/adminpanel/productupload")
         }
         else {

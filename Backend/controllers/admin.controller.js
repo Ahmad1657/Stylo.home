@@ -2,6 +2,8 @@ const Admin = require('../models/admin.model');
 const bcrypt = require("bcrypt")
 const Salt = 10;
 var jwt = require('jsonwebtoken');
+const CryptoJS = require('crypto-js');
+const secretKey = 'your_secret_key';
 
 exports.store = async (req, res) => {
     try {
@@ -20,7 +22,7 @@ exports.store = async (req, res) => {
 
         const admin = Admin.create(req.body)
         if (admin) {
-            res.json({ success: true, status: 200, message: "Admin Created in DataBase" })
+            res.json({ success: true, status: 200, message: "Admin Created in DataBase", role: "admin" })
         }
         else {
             res.json({ success: false, status: 401, message: "Admin not created Error" })
@@ -43,8 +45,15 @@ exports.VerifyAdmin = async (req, res) => {
             admin.isEmailVerified = true;
             admin.code = null;
             admin.save();
+
+            var token = jwt.sign({ id: admin._id }, 'abc123456');
+            var role = "admin";
+
+            const encryptedToken = CryptoJS.AES.encrypt(token, 'your_secret_key').toString();
+            const encryptedRole = CryptoJS.AES.encrypt(role, 'your_secret_key').toString();
+
+            res.json({ success: true, status: 200, message: "Admin Verified Successfully", role: encryptedRole, token: encryptedToken })
         }
-        res.json({ success: true, status: 200, message: "Admin Verified Successfully" })
 
     }
     catch (err) {
@@ -61,8 +70,14 @@ exports.login = async (req, res) => {
         }
         const comparePassword = await bcrypt.compare(password, admin.password);
         if (comparePassword) {
+
             var token = jwt.sign({ id: admin._id }, 'abc123456');
-            res.json({ success: true, staus: 200, message: 'Admin Logined Successfully', token: token })
+            var role = "admin";
+
+            const encryptedToken = CryptoJS.AES.encrypt(token, 'your_secret_key').toString();
+            const encryptedRole = CryptoJS.AES.encrypt(role, 'your_secret_key').toString();
+
+            res.json({ success: true, staus: 200, message: 'Admin Logined Successfully', role: encryptedRole, token: encryptedToken })
         }
         else {
             res.json({ success: false, staus: 401, message: 'Admin wrong Login Failed' })
@@ -80,7 +95,7 @@ exports.get = async (req, res) => {
         if (!admin) {
             return res.json({ status: 404, success: false, message: `Admin not found` })
         }
-        res.json({ status: 200, success: true, message: "Admin found successfully", admin })
+        res.json({ status: 200, success: true, message: "Admin found successfully", role: "admin", admin })
     }
     catch (err) {
         console.log(err);

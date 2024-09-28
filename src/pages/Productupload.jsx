@@ -1,21 +1,31 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
-import { Await, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { jwtDecode } from "jwt-decode";
+import CryptoJS from 'crypto-js';
 import Loader from '../components/Loader';
 
 const Productupload = () => {
 
-  const token = localStorage.getItem('token');
-  const decodedToken = jwtDecode (token);
-  const [loader, setLoader] = useState (false);
-  const navigate = useNavigate ();
-  const [admin, setAdmin] = useState (null);
+  const AdminToken = document.cookie.match(/adminToken=([^;]*)/);
+  const decryptedToken = CryptoJS.AES.decrypt(AdminToken[1], 'your_secret_key').toString(CryptoJS.enc.Utf8);
+  const [loader, setLoader] = useState(false);
+  const navigate = useNavigate();
+  const [admin, setAdmin] = useState(null);
 
   const fetchAdmin = async () => {
     setLoader(true);
-    const response = await axios.get (`http://localhost:8080/api/admin/adminpanel/${decodedToken.id}`);
+
+    const tokenParts = decryptedToken.split('.');
+    const payload = JSON.parse(atob(tokenParts[1]));
+    const adminId = payload.id; // Assuming the admin ID is stored in the 'id' claim
+
+    if (!adminId) {
+      toast.error('Admin ID is not found in the JWT token');
+      return;
+    }
+
+    const response = await axios.get(`http://localhost:8080/api/admin/adminpanel/${adminId}`);
     if (response.data.success) {
       setAdmin(response.data.admin);
       setLoader(false);
@@ -64,7 +74,8 @@ const Productupload = () => {
   }
 
   const logout = () => {
-    localStorage.removeItem('token');
+    document.cookie = "adminToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "adminRole=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     toast.success("Logout Successfully");
     navigate("/adminpanel");
   }
@@ -79,11 +90,11 @@ const Productupload = () => {
     }} >
       <div className='container-fluid loginform' style={{ marginTop: '30px', padding: '20px 80px' }}>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} action="/submit-form.php" method="post">
 
           <div className="createteamform">
 
-            <h1 style={{textAlign:'center', marginTop:'30px'}} >Welcome Back {admin?.name} </h1>
+            <h1 style={{ textAlign: 'center', marginTop: '30px' }} >Welcome Back {admin?.name} </h1>
 
             <div className="title"
               style={{
@@ -142,7 +153,7 @@ const Productupload = () => {
 
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '5px', marginBottom:'5px', }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '5px', marginBottom: '5px', }}>
               <button className='btn buttons mt-4' type='submit' style={{ backgroundColor: '#e6007e', color: '#ffffff', }}>
                 Create Product
               </button>
@@ -156,9 +167,9 @@ const Productupload = () => {
               </button>
               <div style={{ marginTop: '30px' }}>
                 <h5> Powered by | Self </h5>
+              </div>
             </div>
-            </div>
-            
+
           </div>
 
         </form>

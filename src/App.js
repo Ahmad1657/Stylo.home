@@ -14,12 +14,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import LandingPg from "./landingPage/LandingPg";
 import Admin from "./adminPanel/Admin";
 
-
-
-
-
-
-
 function App() {
     return (
         <>

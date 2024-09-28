@@ -3,6 +3,8 @@ const bcrypt = require("bcrypt")
 const Salt = 10;
 var jwt = require('jsonwebtoken');
 const sendEmail = require('../utils/sendEmail');
+const CryptoJS = require('crypto-js');
+const secretKey = 'your_secret_key';
 
 
 exports.register = async (req, res) => {
@@ -32,7 +34,7 @@ exports.register = async (req, res) => {
         const text = `This is a greeting note for you as you have registered on our website.Thnks.This is your verification code ${randomNumber}`;
         sendEmail(user.email, subject, text);
 
-        res.json({ status: 200, message: "User created successfully", success: true, user })
+        res.json({ status: 200, message: "User created successfully", success: true, role: "user", user })
     }
     catch (err) {
         console.log(err);
@@ -54,9 +56,15 @@ exports.verifyUser = async (req, res) => {
             user.isEmailverified = true;
             user.code = null;
             user.save();
+
             var token = jwt.sign({ id: user._id }, 'abc123456');
+            var role = "user";
+
+            const encryptedToken = CryptoJS.AES.encrypt(token, 'your_secret_key').toString();
+            const encryptedRole = CryptoJS.AES.encrypt(role, 'your_secret_key').toString();
+            
+            return res.json({ status: 200, message: "Verified Successfully", success: true, role: encryptedRole, token: encryptedToken })
         }
-        return res.json({ status: 200, message: "Verified Successfully", token, success: true })
     }
     catch (err) {
         console.log(err);
@@ -84,7 +92,7 @@ exports.forgotPassword = async (req, res) => {
 
         }
         else {
-            return res.json({ status: 404, message: "User not found", success: false })
+            return res.json({ status: 404, message: "User not found", role: "user", success: false })
         }
 
 
@@ -104,8 +112,14 @@ exports.login = async (req, res) => {
 
         const comparePassword = await bcrypt.compare(password, user.password);
         if (comparePassword) {
+
             var token = jwt.sign({ id: user._id }, 'abc123456');
-            return res.json({ status: 200, message: "User Login Successfully.", success: true, token: token });
+            var role = "user";
+
+            const encryptedToken = CryptoJS.AES.encrypt(token, 'your_secret_key').toString();
+            const encryptedRole = CryptoJS.AES.encrypt(role, 'your_secret_key').toString();
+
+            return res.json({ status: 200, message: "User Login Successfully.", success: true, role: encryptedRole, token: encryptedToken });
         }
         else {
             return res.json({ status: 401, message: "Wrong Password", success: false });

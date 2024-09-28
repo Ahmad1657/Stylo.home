@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 
 import MainNavbar from '../components/MainNavbar';
 import Home from '../pages/Home';
@@ -20,11 +20,20 @@ import Dashboard from "../pages/Dashboard";
 import Verifycode from "../pages/Verifycode";
 import Forgotpassword from "../pages/Forgotpassword";
 
+// import AuthenticatedRoute from '../Authentication/AuthenticatedRoute';
+
+
 const LandingPg = () => {
+
   return (
     <>
-    <MainNavbar />
-    <Routes>
+      <MainNavbar />
+      <Routes>
+
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/verifycode" element={<Verifycode />} />
+        <Route path="/forgotpassword" element={<Forgotpassword />} />
         <Route path="/" element={<Home />} />
         <Route path="/sale" element={<Sale />} />
         <Route path="/summer-24" element={<Summer24 />} />
@@ -35,16 +44,14 @@ const LandingPg = () => {
         <Route path="/accessories" element={<Accessories />} />
         <Route path="/fragrances" element={<Fragrances />} />
         <Route path="/product/:id" element={<ProductDescription />} />
-        <Route path="/signup" element={<Signup/>} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/dashboard" element={<Dashboard/>}/>
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/verifycode" element={<Verifycode />} />
-        <Route path="/forgotpassword" element={<Forgotpassword/>} />
-    </Routes>
-    <End />
 
-    
-</>
+      </Routes>
+      <End />
+
+
+    </>
   )
 }
 
