@@ -4,6 +4,7 @@ const Salt = 10;
 var jwt = require('jsonwebtoken');
 const CryptoJS = require('crypto-js');
 const secretKey = 'your_secret_key';
+const sendEmail = require('../utils/sendEmail');
 
 exports.store = async (req, res) => {
     try {
@@ -22,7 +23,7 @@ exports.store = async (req, res) => {
 
         const admin = Admin.create(req.body)
         if (admin) {
-            res.json({ success: true, status: 200, message: "Admin Created in DataBase", role: "admin" })
+            res.json({ success: true, status: 200, message: "Admin Created in DataBase" })
         }
         else {
             res.json({ success: false, status: 401, message: "Admin not created Error" })
@@ -36,8 +37,10 @@ exports.store = async (req, res) => {
 
 exports.VerifyAdmin = async (req, res) => {
     try {
-        const { email, code } = req.body;
-        const admin = await Admin.findOne({ email: email })
+        const { code } = req.body
+
+        const admin = await Admin.findOne({ code: code })
+
         if (!admin) {
             res.json({ success: false, status: 401, message: "Admin not Found" })
         }
@@ -99,5 +102,46 @@ exports.get = async (req, res) => {
     }
     catch (err) {
         console.log(err);
+    }
+};
+
+exports.index = async (req, res) => {
+    try {
+        const admins = await Admin.find()
+        res.json({ status: 200, message: "Admin fetched successfully", admins })
+    }
+    catch (err) {
+        console.log(err);
+    }
+};
+
+exports.forgotPassword = async (req, res) => {
+    try {
+        const { email, code } = req.body;
+        const admin = await Admin.findOne({ email: email });
+
+
+        if (admin) {
+            const randomNumber = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+
+            admin.isEmailverified = false;
+            admin.code = randomNumber;
+            admin.save();
+
+            const subject = "Welcome to Stylo";
+            const text = `This is a greeting note for you as you have registered on our website.Thnks.This is your verification code ${randomNumber}`;
+            sendEmail(admin.email, subject, text)
+
+            return res.json({ status: 200, message: "Verification Code sent on your Email", success: true })
+
+        }
+        else {
+            return res.json({ status: 404, message: "Admin not found", success: false })
+        }
+
+
+    }
+    catch (err) {
+        console.log(err)
     }
 }

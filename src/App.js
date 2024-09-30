@@ -20,7 +20,7 @@ function App() {
 
             <Routes>
                 <Route path="*" element={<LandingPg />} />
-                <Route path="/adminpanel/*" element={<Admin />} />
+                <Route path="/admin/*" element={<Admin />} />
             </Routes>
 
 

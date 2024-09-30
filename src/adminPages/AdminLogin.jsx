@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios'
-import CryptoJS from 'crypto-js';
 
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
@@ -38,9 +37,9 @@ const AdminLogin = () => {
 
             document.cookie = `adminToken=${AdminToken}; path=/; expires=${new Date(Date.now() + 3600000).toUTCString()}; secure`;
             document.cookie = `adminRole=${AdminRole}; path=/; expires=${new Date(Date.now() + 3600000).toUTCString()}; secure`;
-           
+
             toast.success(response.data.message);
-            navigate("/adminpanel/productupload")
+            navigate("/admin/adminhome")
         }
         else {
             toast.error(response.data.message)
@@ -122,6 +121,18 @@ const AdminLogin = () => {
                                     Login
                                 </button>
                             </div>
+
+                            <div style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                gap: '40px',
+                                marginTop: '25px',
+                            }}>
+                                <Link className='link' to={'/admin/adminforgotpass'} >
+                                    <p>Forget Password ?</p>
+                                </Link>
+                            </div>
+
 
                         </div>
                     </div>

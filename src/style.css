@@ -125,6 +125,13 @@
     background-color: black;
 }
 
+.admincollapsedsidepanel{
+    width: 25%;
+}
+.prenavAdmin1{
+    width: 25%;
+}
+
 /* Website Responsiveness Code Starts */
 
 @media screen and (min-width:1024px) {
@@ -142,6 +149,9 @@
     .sidepanelbutton{
         display: none;
     }
+    .admincollapsedsidepanel{
+        width: 0 !important;
+    }
 }
 
 @media screen and (max-width:992px) {
@@ -150,6 +160,10 @@
     }
     .sidepanelbutton{
         display: block;
+    }
+
+    .prenavAdmin1{
+        display: none !important;
     }
     
     .line {
@@ -181,6 +195,9 @@
 }
 
 @media screen and (max-width:768px) {
+    .prenavAdmin{
+        display: none !important;
+    }
     .loginform {
         padding: 20px 10px !important;
     }
@@ -251,6 +268,9 @@
     .product img{
         width: 0px;
         height: 240px;
+    }
+    .adminDataTables{
+        flex-direction: column;
     }
 }
 

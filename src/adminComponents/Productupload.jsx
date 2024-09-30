@@ -1,39 +1,9 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react'
 import { toast } from 'react-toastify';
-import CryptoJS from 'crypto-js';
-import Loader from '../components/Loader';
+
 
 const Productupload = () => {
-
-  const AdminToken = document.cookie.match(/adminToken=([^;]*)/);
-  const decryptedToken = CryptoJS.AES.decrypt(AdminToken[1], 'your_secret_key').toString(CryptoJS.enc.Utf8);
-  const [loader, setLoader] = useState(false);
-  const navigate = useNavigate();
-  const [admin, setAdmin] = useState(null);
-
-  const fetchAdmin = async () => {
-    setLoader(true);
-
-    const tokenParts = decryptedToken.split('.');
-    const payload = JSON.parse(atob(tokenParts[1]));
-    const adminId = payload.id; // Assuming the admin ID is stored in the 'id' claim
-
-    if (!adminId) {
-      toast.error('Admin ID is not found in the JWT token');
-      return;
-    }
-
-    const response = await axios.get(`http://localhost:8080/api/admin/adminpanel/${adminId}`);
-    if (response.data.success) {
-      setAdmin(response.data.admin);
-      setLoader(false);
-    }
-  };
-  useEffect(() => {
-    fetchAdmin();
-  }, []);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -73,13 +43,6 @@ const Productupload = () => {
     }
   }
 
-  const logout = () => {
-    document.cookie = "adminToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    document.cookie = "adminRole=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    toast.success("Logout Successfully");
-    navigate("/adminpanel");
-  }
-
   return (
 
     <div className="content" style={{
@@ -93,8 +56,6 @@ const Productupload = () => {
         <form onSubmit={handleSubmit} action="/submit-form.php" method="post">
 
           <div className="createteamform">
-
-            <h1 style={{ textAlign: 'center', marginTop: '30px' }} >Welcome Back {admin?.name} </h1>
 
             <div className="title"
               style={{
@@ -157,17 +118,6 @@ const Productupload = () => {
               <button className='btn buttons mt-4' type='submit' style={{ backgroundColor: '#e6007e', color: '#ffffff', }}>
                 Create Product
               </button>
-            </div>
-
-            <hr />
-
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px' }}>
-              <button className='btn buttons mt-4' onClick={logout} style={{ backgroundColor: '#e6007e', color: '#ffffff', }}>
-                Logout
-              </button>
-              <div style={{ marginTop: '30px' }}>
-                <h5> Powered by | Self </h5>
-              </div>
             </div>
 
           </div>

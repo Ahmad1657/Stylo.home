@@ -25,13 +25,16 @@ const Large = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     }
     const handleSubmit = async (e) => {
+        e.preventDefault();
+       try{
         const response = await axios.post("http://localhost:8080/api/admin/subscribe/subscribe", formData)
         if (response.data.success) {
             toast.success(response.data.message);
         }
-        else {
-            toast.error(response.data.message);
-        }
+    }
+        catch(error) {
+            console.error('Error uploading product:', error);
+          }
     }
 
     return (
