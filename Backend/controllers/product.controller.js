@@ -1,4 +1,5 @@
 const Product = require("../models/product.model");
+const mongoose = require('mongoose');
 // const { param } = require("../routes");
 
 exports.store = async (req, res) => {
@@ -28,10 +29,10 @@ exports.store = async (req, res) => {
 
 exports.index = async (req, res) => {
     try {
-        const {category}=req.query;
-        const query={};
-        if(category){
-            query.category=category;
+        const { category } = req.query;
+        const query = {};
+        if (category) {
+            query.category = category;
         }
         const products = await Product.find(query)
         res.json({ status: 200, message: "Product fetched successfully", products })
@@ -43,13 +44,30 @@ exports.index = async (req, res) => {
 
 exports.get = async (req, res) => {
     try {
-        const {id} = req.params;
-        console.log(id);
-        const product = await Product.findOne({_id:id})
-        if(!product){
-           return res.json({status:404, success:false, message:`Product not found`})
+        const { id } = req.params;
+        let product;
+        if (mongoose.Types.ObjectId.isValid(id)) {
+            // If valid, attempt to search by _id
+            product = await Product.findOne({ _id: id });
         }
-        res.json({ status: 200, message: "Product found successfully", product })
+
+
+        if (!product) {
+            const searchQuery = new RegExp(id, 'i'); // Case-insensitive search
+
+            product = await Product.findOne({
+                $or: [
+                    { name: searchQuery },
+                    { description: searchQuery },
+                    { category: searchQuery }
+                ]
+            });
+        }
+        if (!product) {
+            return res.json({ status: 404, success: false, message: `Product not found` })
+        }
+        res.json({ status: 200, message: "Product found successfully", success: true, product })
+
     }
     catch (err) {
         console.log(err);
@@ -58,13 +76,13 @@ exports.get = async (req, res) => {
 
 exports.destroy = async (req, res) => {
     try {
-        const {id} = req.params;
+        const { id } = req.params;
         console.log(id);
-        const product = await Product.findOneAndDelete({_id:id})
-        if(!product){
-           return res.json({status:404, success:false, message:`Product not found`})
+        const product = await Product.findOneAndDelete({ _id: id })
+        if (!product) {
+            return res.json({ status: 404, success: false, message: `Product not found` })
         }
-        res.json({ status: 200, message: "Product deleted successfully"})
+        res.json({ status: 200, message: "Product deleted successfully" })
     }
     catch (err) {
         console.log(err);
@@ -73,13 +91,13 @@ exports.destroy = async (req, res) => {
 
 exports.update = async (req, res) => {
     try {
-        const {id} = req.params;
+        const { id } = req.params;
         console.log(id);
-        const product = await Product.findOneAndUpdate({_id:id},req.body,{new:true})
-        if(!product){
-           return res.json({status:404, success:false, message:`Product not found`})
+        const product = await Product.findOneAndUpdate({ _id: id }, req.body, { new: true })
+        if (!product) {
+            return res.json({ status: 404, success: false, message: `Product not found` })
         }
-        res.json({ status: 200, message: "Product updated successfully"})
+        res.json({ status: 200, message: "Product updated successfully" })
     }
     catch (err) {
         console.log(err);

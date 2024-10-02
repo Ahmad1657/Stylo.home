@@ -20,26 +20,39 @@ const Kids = () => {
 
     <>
 
-      {loader ? <Loader /> : <div className='pro'>
-        {
-          products.map((product) => {
-            return (
-              <Link to={`/product/${product._id}`}>
+      {loader ? (
+        <Loader />
+      ) : (
+        <div className='pro'>
+          {products && products.length > 0 ? (
+            products.map((product) => (
+              <Link key={product._id} to={`/product/${product._id}`}>
                 <div className='card' style={{ width: '18rem' }}>
-                  <img src={`http://localhost:8080/uploads/${product.image}`} className='card-img-top' alt='...' width={400} height={200}/>
+                  {product.image && ( // Ensure product.image exists before rendering
+                    <img
+                      src={`http://localhost:8080/uploads/${product.image}`}
+                      className='card-img-top'
+                      alt={product.name}
+                      width={400}
+                      height={200}
+                    />
+                  )}
                   <div className='card-body'>
                     <h5 className='card-title'>{product.name}</h5>
-                    <p className='card-text'>{product.description.slice(0 - 100)}</p>
-                    <h6 className='btn btn-secondary'>Class :{product.category}</h6>
+                    <p className='card-text'>{product.description.slice(0, 100)}...</p> {/* Slicing the description */}
+                    <h6 className='btn btn-secondary'>Class: {product.category}</h6>
                     <h6 className='btn btn-primary'>US$ {product.price}</h6>
-                    
                   </div>
                 </div>
               </Link>
-            )
-          })
-        }
-      </div>}
+            ))
+          ) : (
+            <p style={{
+              margin: '25px 0px',
+            }} >No product found.</p>
+          )}
+        </div>
+      )}
 
     </>
 

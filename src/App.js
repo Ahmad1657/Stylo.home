@@ -5,10 +5,9 @@ import "bootstrap/dist/js/bootstrap.min.js";
 
 import { Routes, Route } from 'react-router-dom'
 
-import Swiper from 'swiper';
 import 'swiper/css';
 
-import { ToastContainer, Zoom, toast } from 'react-toastify';
+import { ToastContainer, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import LandingPg from "./landingPage/LandingPg";
@@ -38,6 +37,7 @@ function App() {
                 theme="light"
                 transition={Zoom}
             />
+
         </>
     );
 }

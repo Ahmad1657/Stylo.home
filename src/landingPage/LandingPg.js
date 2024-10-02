@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 
 import MainNavbar from '../components/MainNavbar';
 import Home from '../pages/Home';
@@ -19,6 +19,7 @@ import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
 import Verifycode from "../pages/Verifycode";
 import Forgotpassword from "../pages/Forgotpassword";
+import Search from '../pages/Search';
 
 // import AuthenticatedRoute from '../Authentication/AuthenticatedRoute';
 
@@ -45,7 +46,7 @@ const LandingPg = () => {
         <Route path="/fragrances" element={<Fragrances />} />
         <Route path="/product/:id" element={<ProductDescription />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/verifycode" element={<Verifycode />} />
+        <Route path='/search' element={<Search />} />
 
       </Routes>
       <End />
