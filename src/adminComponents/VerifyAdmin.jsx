@@ -21,7 +21,7 @@ const Verifyadmin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const response = await axios.post("http://localhost:8080/api/admin/adminpanel/verifyAdmin", formData);
+        const response = await axios.post(`${process.env.REACT_APP_URL}/adminpanel/verifyAdmin`, formData);
         if (response.data.success) {
             // const AdminToken = (response.data.token);
             // const AdminRole = (response.data.role);

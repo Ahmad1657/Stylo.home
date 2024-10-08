@@ -25,7 +25,7 @@ const PrenavAdmin = () => {
             return;
         }
 
-        const response = await axios.get(`http://localhost:8080/api/admin/adminpanel/${adminId}`);
+        const response = await axios.get(`${process.env.REACT_APP_URL}/adminpanel/${adminId}`);
         if (response.data.success) {
             setAdmin(response.data.admin);
             setLoader(false);

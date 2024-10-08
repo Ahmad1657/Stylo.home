@@ -8,7 +8,7 @@ const Summer24 = () => {
   const [loader, setLoader] = useState(false);
   const fetchData = async () => {
     setLoader(true)
-    const response = await axios.get('http://localhost:8080/api/admin/product?category=sedan')
+    const response = await axios.get(`${process.env.REACT_APP_URL}/product?category=sedan`)
     setProducts(response.data.products)
     setLoader(false)
   }

@@ -46,7 +46,7 @@ const CreateNewAdmin = () => {
         }
 
         try {
-            const response = await axios.post("http://localhost:8080/api/admin/adminpanel/register", formData);
+            const response = await axios.post(`${process.env.REACT_APP_URL}/adminpanel/register`, formData);
             if (response.data.success) {
                 toast.success("Register Successfully");
                 navigate("/admin/adminhome/verifyadmin");

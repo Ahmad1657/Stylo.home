@@ -8,7 +8,7 @@ const Bags = () => {
   const [loader, setLoader] = useState(false);
   const fetchData = async () => {
     setLoader(true)
-    const response = await axios.get('http://localhost:8080/api/admin/product?category=sports')
+    const response = await axios.get(`${process.env.REACT_APP_URL}/product?category=sports`)
     setProducts(response.data.products)
     setLoader(false)
   }

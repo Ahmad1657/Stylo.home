@@ -33,7 +33,7 @@ const Login = () => {
             return;
         }
 
-        const response = await axios.post("http://localhost:8080/api/admin/user/login", formData)
+        const response = await axios.post(`${process.env.REACT_APP_URL}/user/login`, formData)
         if (response.data.success) {
             const UserToken = (response.data.token);
             const UserRole = (response.data.role);

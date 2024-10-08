@@ -23,7 +23,7 @@ const AdminForgotPass = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const response = await axios.post("http://localhost:8080/api/admin/adminpanel/forgotpassword", formData)
+        const response = await axios.post(`${process.env.REACT_APP_URL}/adminpanel/forgotpassword`, formData)
 
         if (response.data.success) {
             toast.success(response.data.message)
@@ -38,7 +38,7 @@ const AdminForgotPass = () => {
     const handleVerify = async (e) => {
         e.preventDefault();
 
-        const response = await axios.post("http://localhost:8080/api/admin/adminpanel/verifyAdmin", formData)
+        const response = await axios.post(`${process.env.REACT_APP_URL}/adminpanel/verifyAdmin`, formData)
 
         if (response.data.success) {
             const AdminToken = (response.data.token);

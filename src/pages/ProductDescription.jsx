@@ -12,7 +12,7 @@ const ProductDescription = () => {
     const [loader,setLoader]=useState(false);
     const fetchProduct=async()=>{
          setLoader(true);
-        const response=await axios.get(`http://localhost:8080/api/admin/product/${id}`);
+        const response=await axios.get(`${process.env.REACT_APP_URL}/product/${id}`);
         setProduct(response.data.product)
         setLoader(false);
     }

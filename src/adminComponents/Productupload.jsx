@@ -33,7 +33,7 @@ const Productupload = () => {
     data.append('price', formData.price);
 
     try {
-      const response = await axios.post("http://localhost:8080/api/admin/product", data);
+      const response = await axios.post(`process.env.REACT_APP_URL/product`, data);
       if (response.data.success) {
         toast.success(response.data.message)
       }

@@ -31,7 +31,7 @@ const ProductDataTable = () => {
 
   const [data, setData] = useState([])
   const fetchProducts = async () => {
-    const response = await axios.get("http://localhost:8080/api/admin/product")
+    const response = await axios.get(`${process.env.REACT_APP_URL}/product`)
     setData(response.data.products)
   };
   useEffect(() => {

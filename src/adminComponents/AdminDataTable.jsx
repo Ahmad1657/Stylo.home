@@ -31,7 +31,7 @@ const AdminDataTable = () => {
 
   const [data, setData] = useState([])
   const fetchProducts = async () => {
-    const response = await axios.get("http://localhost:8080/api/admin/adminpanel")
+    const response = await axios.get(`${process.env.REACT_APP_URL}/adminpanel`)
     setData(response.data.admins)
   };
   useEffect(() => {

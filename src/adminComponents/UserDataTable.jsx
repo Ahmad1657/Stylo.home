@@ -31,7 +31,7 @@ const UserDataTable = () => {
 
   const [data, setData] = useState([])
   const fetchProducts = async () => {
-    const response = await axios.get("http://localhost:8080/api/admin/user")
+    const response = await axios.get(`${process.env.REACT_APP_URL}/user`)
     setData(response.data.users)
   };
   useEffect(() => {

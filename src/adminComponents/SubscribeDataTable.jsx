@@ -31,7 +31,7 @@ const SubscribeDataTable = () => {
 
   const [data, setData] = useState([])
   const fetchProducts = async () => {
-    const response = await axios.get("http://localhost:8080/api/admin/subscribe")
+    const response = await axios.get(`${process.env.REACT_APP_URL}/subscribe`)
     setData(response.data.subscribes)
   };
   useEffect(() => {

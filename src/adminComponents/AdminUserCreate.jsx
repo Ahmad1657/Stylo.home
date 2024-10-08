@@ -46,7 +46,7 @@ const AdminUserCreate = () => {
         }
 
         try {
-            const response = await axios.post("http://localhost:8080/api/admin/user/register", formData);
+            const response = await axios.post(`${process.env.REACT_APP_URL}/user/register`, formData);
             if (response.data.success) {
                 toast.success("Register Successfully");
                 navigate("/verifycode");

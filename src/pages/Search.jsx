@@ -21,7 +21,7 @@ const Search = () => {
         e.preventDefault();
         try {
             setLoader(true);
-            const response = await axios.get(`http://localhost:8080/api/admin/product/${searches}`);
+            const response = await axios.get(`${process.env.REACT_APP_URL}/product/${searches}`);
             if (response.data.success) {
                 setSearchData(response.data.product);
                 setLoader(false);
